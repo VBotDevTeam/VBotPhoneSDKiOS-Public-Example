@@ -1,0 +1,16 @@
+PODS:
+  - VBotPhoneSDKiOS-Public (1.1.4)
+
+DEPENDENCIES:
+  - VBotPhoneSDKiOS-Public (= 1.1.4)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - VBotPhoneSDKiOS-Public
+
+SPEC CHECKSUMS:
+  VBotPhoneSDKiOS-Public: b0676a9e3e3b5e6e5b724e749217348f0cea00da
+
+PODFILE CHECKSUM: cc199bc9528a7c4b3368d6af08014f612c357257
+
+COCOAPODS: 1.16.2
