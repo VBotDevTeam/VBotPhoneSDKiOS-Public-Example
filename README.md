@@ -67,11 +67,10 @@ Cấu hình **Team** và **Bundle Identifier** của bạn trong Xcode.
 ```
 VBotPhoneSDK-Example/
 ├── AppDelegate.swift                    # Khởi tạo SDK, PushKit, CallKit
-├── ViewController.swift                 # Màn hình chính (chọn user, gọi điện)
-├── ViewController+VBotPhoneDelegate.swift # Xử lý delegate callbacks
-├── CallViewController.swift             # Giao diện cuộc gọi
-├── SelectMemberViewController.swift     # Chọn/Thêm tài khoản
-├── UserData.swift                       # Quản lý UserDefaults
+├── ViewController.swift                 # Màn hình chính (chọn tài khoản, gọi điện, hotline, masking session)
+├── SelectMemberViewController.swift     # Chọn tài khoản mẫu (Staging)
+├── TestData.swift                       # Dữ liệu tài khoản mẫu & quản lý UserDefaults
+├── TestViewController.swift             # Màn hình mẫu điều hướng / chat
 └── Helpers.swift                        # Utility extensions
 ```
 
@@ -143,13 +142,6 @@ func pushRegistry(_ registry: PKPushRegistry,
 }
 ```
 
-## Tùy chỉnh giao diện cuộc gọi
-
-Bạn có thể tùy chỉnh `CallViewController.swift` để thay đổi giao diện cuộc gọi theo ý muốn:
-
-- Thay đổi màu sắc, font chữ
-- Thêm avatar người gọi
-- Thêm các nút chức năng khác
 
 ## Troubleshooting
 

@@ -96,8 +96,8 @@
 				DFFB77022F222FE90054ACB6 /* Sources */,
 				DFFB77032F222FE90054ACB6 /* Frameworks */,
 				DFFB77042F222FE90054ACB6 /* Resources */,
-				2C2402C3ED9093436497B92B /* [CP] Embed Pods Frameworks */,
-				55FCF1627C3C5BCB189B8128 /* [CP] Copy Pods Resources */,
+				427D72178FC91C8CE3B78582 /* [CP] Embed Pods Frameworks */,
+				369C33C8E8D301544D4E208C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -156,28 +156,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C2402C3ED9093436497B92B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		55FCF1627C3C5BCB189B8128 /* [CP] Copy Pods Resources */ = {
+		369C33C8E8D301544D4E208C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -185,17 +164,30 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
-			outputPaths = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		427D72178FC91C8CE3B78582 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VBotPhoneSDK-Example/Pods-VBotPhoneSDK-Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8D81865ECB578B2FF9DB503F /* [CP] Check Pods Manifest.lock */ = {

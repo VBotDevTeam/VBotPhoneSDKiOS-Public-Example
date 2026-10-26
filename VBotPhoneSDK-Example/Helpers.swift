@@ -8,10 +8,29 @@
 import Foundation
 import UIKit
 
+// MARK: - UIColor Compatibility
+
+extension UIColor {
+    static var systemMintCompat: UIColor {
+        if #available(iOS 15.0, *) {
+            return .systemGreen
+        } else {
+            return .systemBlue
+        }
+    }
+
+    static var systemTealCompat: UIColor {
+        if #available(iOS 15.0, *) {
+            return .systemGreen
+        } else {
+            return .systemGreen
+        }
+    }
+}
 
 extension UIViewController {
-    @objc open func wrapToNavigationController() -> VPNavigationController {
-        let navigationController = VPNavigationController(rootViewController: self)
+    @objc open func wrapToNavigationController() -> SPNavigationController {
+        let navigationController = SPNavigationController(rootViewController: self)
         #if os(iOS)
         navigationController.navigationBar.prefersLargeTitles = false
         #endif
@@ -35,7 +54,8 @@ struct Res: Codable {
     let message: String
 }
 
-open class VPNavigationController: UINavigationController {
+open class SPNavigationController: UINavigationController {
+    // MARK: - Init
 
     override public init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
@@ -55,15 +75,32 @@ open class VPNavigationController: UINavigationController {
         super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
+    /**
+     SparrowKit: Wrapper of init.
+     Called in each init and using for configuration.
+
+     No need ovveride init. Using one function for configurate view.
+     */
     open func commonInit() {}
 
+    // MARK: - Layout
+
+    /**
+     SparrowKit: If set to `true`, navigation bar apply horizontal margins from view of navigation controller.
+     Default is `false`.
+     */
     open var inheritLayoutMarginsForNavigationBar: Bool = false
 
+    /**
+     SparrowKit: If set to `true`, child controllers apply horizontal margins from view of navigation controller.
+     Default is `false`.
+     */
     open var inheritLayoutMarginsForСhilds: Bool = false
 
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        // Inhert of Navigation Bar
 
         if inheritLayoutMarginsForNavigationBar {
             let leftMargin = view.layoutMargins.left
@@ -77,6 +114,7 @@ open class VPNavigationController: UINavigationController {
             }
         }
 
+        // Inhert childs controllers
 
         if inheritLayoutMarginsForСhilds {
             let leftMargin = view.layoutMargins.left
@@ -140,24 +178,6 @@ extension UIViewController {
             }
         }
     }
-    
-    // MARK: - Alert Helpers
-    
-    func showError(code: Int, message: String) {
-        let alert = UIAlertController(
-            title: "Lỗi",
-            message: "Code: \(code)\nMessage: \(message)",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Đóng", style: .default))
-        present(alert, animated: true)
-    }
-
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
 }
 
 extension UIApplication {
@@ -184,39 +204,18 @@ enum AppEnvironment {
     case appStore
 }
 
-// MARK: - UITextFieldDelegate
-
-extension ViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isEmpty { return true }
-        return string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
-    }
-}
-
-
-
-extension UIViewController {
-    func presentViewControllerFromVisibleViewController(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        if let navigationController = self as? UINavigationController {
-            navigationController.topViewController?.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
-        } else if let tabBarController = self as? UITabBarController {
-            tabBarController.selectedViewController?.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
-        } else if let presentedViewController = presentedViewController {
-            presentedViewController.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
-        } else {
-            present(viewControllerToPresent, animated: flag, completion: completion)
+func currentEnvironment() -> AppEnvironment {
+//    #if DEBUG
+//    return .debug
+//    #else
+    if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL {
+        let lastPathComponent = appStoreReceiptURL.lastPathComponent
+        if lastPathComponent == "sandboxReceipt" {
+            return .testFlight
+        } else if appStoreReceiptURL.path.contains("/var/mobile/Library/") {
+            return .appStore
         }
     }
-
-    func dismissViewControllerFromVisibleViewController() {
-        if let navigationController = self as? UINavigationController {
-            navigationController.topViewController?.dismiss(animated: true)
-        } else if let tabBarController = self as? UITabBarController {
-            tabBarController.selectedViewController?.dismiss(animated: true)
-        } else if let presentedViewController = presentedViewController {
-            presentedViewController.dismiss(animated: true)
-        } else {
-            dismiss(animated: true)
-        }
-    }
+    return .debug
+//    #endif
 }

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  VBotPhoneSDK-Example
 //
-//  Created by DAT NGUYEN QUOC on 22/1/26.
+//  Created by VPMedia on 22/1/26.
 //
 
 import UIKit
@@ -33,13 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = VBotConfig(
             supportPopupCall: true, // Bật popup call trong cuộc gọi
             includesCallsInRecents: true,
-            iconTemplateImageData: UIImage(named: "callkit-icon")?.pngData() // Icon cho màn hình CallKit
+            iconTemplateImageData: UIImage(named: "callkit-icon")?.pngData(), // Icon cho màn hình CallKit
+            environment: .staging
         )
-        // Khởi tạo SDK
-       
         
+        // Khởi tạo SDK
         VBotPhone.sharedInstance.setup(with: config)
-        // VBotPhone.sharedInstance.addDelegate(self)
+        VBotPhone.sharedInstance.addDelegate(self)
         
         // Khởi tạo PKPushRegistry
         voipRegistry = PKPushRegistry(queue: .main)
@@ -50,14 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        VBotLogger.info(filter: "🍭 AppDelegate URL", "continue userActivity \(userActivity.activityType)")
-
         switch userActivity.activityType {
         case "INStartAudioCallIntent":
             return handleStartCallIntent(
                 INStartAudioCallIntent.self,
                 userActivity: userActivity,
-                contacts: \.contacts,
+                contacts: \.contacts
             )
 
         case "INStartCallIntent":
@@ -65,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return handleStartCallIntent(
                     INStartCallIntent.self,
                     userActivity: userActivity,
-                    contacts: \.contacts,
+                    contacts: \.contacts
                 )
             } else {
                 return false
@@ -79,72 +77,96 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func handleStartCallIntent<T: INIntent>(
         _ intentType: T.Type,
         userActivity: NSUserActivity,
-        contacts: KeyPath<T, [INPerson]?>,
+        contacts: KeyPath<T, [INPerson]?>
     ) -> Bool {
         let intent = userActivity.interaction?.intent
-        
-        dump(intent)
         guard let intent = intent as? T else {
             return false
         }
         
-        if let person =  intent[keyPath: contacts]?.first {
+        if let person = intent[keyPath: contacts]?.first {
             let displayName = person.displayName
-            
-            let result = VBotPhone.sharedInstance.getCallIntentFromUserActivity(displayName)
-            dump(result)
+            _ = VBotPhone.sharedInstance.getCallIntentFromUserActivity(displayName)
         }
        
         return true
     }
-    
-    
 
     func applicationWillResignActive(_ application: UIApplication) {}
-
     func applicationDidEnterBackground(_ application: UIApplication) {}
-
     func applicationWillEnterForeground(_ application: UIApplication) {}
-
     func applicationDidBecomeActive(_ application: UIApplication) {}
-
-    func applicationWillTerminate(_ application: UIApplication) {
-    }
+    func applicationWillTerminate(_ application: UIApplication) {}
 }
 
-// Lắng nghe các sự kiện cùa Pushkit
+// Lắng nghe các sự kiện của Pushkit
 extension AppDelegate: PKPushRegistryDelegate {
     nonisolated func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         guard let token = registry.pushToken(for: .voIP) else {
-            VBotLogger.error(filter: "🍭 AppDelegate", "Không thể lấy token push")
             return
         }
 
         let pushToken = token.map { String(format: "%.2hhx", $0) }.joined()
-        
         DispatchQueue.main.async {
             savePushToken(pushToken)
         }
-        
-        VBotLogger.debug(filter: "🍭 AppDelegate", "Nhận được token: \(pushToken)")
     }
 
     nonisolated func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
-        
         if type == .voIP {
             VBotPhone.sharedInstance.startIncomingCall(
                 payload: payload,
                 completion: completion
             )
-           
         } else {
             completion()
         }
-       
     }
 
-    nonisolated func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
-        VBotLogger.error(filter: "🍭 AppDelegate", "didInvalidatePushTokenFor \(type)")
+    nonisolated func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {}
+}
+
+extension AppDelegate: VBotPhoneDelegate {
+    nonisolated func receivedApnsToken(token: String?) {}
+    nonisolated func callInfoUpdated() {}
+    nonisolated func callStarted() {}
+    nonisolated func callAccepted() {}
+    nonisolated func callEnded(reason: VBotEndCallReason) {}
+    nonisolated func callMuteStateDidChange(muted: Bool) {}
+    nonisolated func callHoldStateDidChange(isOnHold: Bool) {}
+    nonisolated func callStateChanged(state: VBotCallState) {}
+
+    @objc func showCallVC(_ notification: Notification? = nil) {}
+
+    @objc func hideCallVC(_ notification: Notification? = nil) {
+        DispatchQueue.main.async {
+            AppDelegate.shared.window?.rootViewController?.dismissViewControllerFromVisibleViewController()
+        }
     }
 }
 
+extension UIViewController {
+    func presentViewControllerFromVisibleViewController(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        if let navigationController = self as? UINavigationController {
+            navigationController.topViewController?.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
+        } else if let tabBarController = self as? UITabBarController {
+            tabBarController.selectedViewController?.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
+        } else if let presentedViewController = presentedViewController {
+            presentedViewController.presentViewControllerFromVisibleViewController(viewControllerToPresent, animated: flag, completion: completion)
+        } else {
+            present(viewControllerToPresent, animated: flag, completion: completion)
+        }
+    }
+
+    func dismissViewControllerFromVisibleViewController() {
+        if let navigationController = self as? UINavigationController {
+            navigationController.topViewController?.dismiss(animated: true)
+        } else if let tabBarController = self as? UITabBarController {
+            tabBarController.selectedViewController?.dismiss(animated: true)
+        } else if let presentedViewController = presentedViewController {
+            presentedViewController.dismiss(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
+    }
+}

@@ -4,9 +4,12 @@
 <dict>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is necessary to make calls.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>INStartAudioCallIntent</string>
+		<string>INStartCallIntent</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
