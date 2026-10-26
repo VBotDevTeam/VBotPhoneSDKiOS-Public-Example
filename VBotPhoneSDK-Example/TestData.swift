@@ -35,7 +35,7 @@ class SDKMember: Codable {
 
 @MainActor let TestAccount: [SDKMember] = [
     SDKMember(type: "ios", typeTest: "vbot", callName: "cangu 01 Staging", ext: "112", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjIyLTE1NS0zNS0xMzY0In0.OPL0OHrmKDGrWWdKx22Ys4K7fMkqbGetH8b3qCiRxXM"),
-    SDKMember(type: "ios", typeTest: "vbot", callName: "vbottester 01 Staging", ext: "112", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjIyLTE1Ny0zNi00MyJ9.lbE3ExHza6t8kcMrT9BPQGmtCUz_l1F3Pk9WX7OrQ3w"),
+    SDKMember(type: "ios", typeTest: "vbot", callName: "vbottester 01 Staging", ext: "112", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjIyLTE1NS0zNS0xMzY0In0.OPL0OHrmKDGrWWdKx22Ys4K7fMkqbGetH8b3qCiRxXM"),
     SDKMember(type: "ios", typeTest: "vbot", callName: "vbottester 02 Staging", ext: "113", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjIyLTE1Ny0zNi00MyJ9.lbE3ExHza6t8kcMrT9BPQGmtCUz_l1F3Pk9WX7OrQ3w"),
     SDKMember(type: "ios", typeTest: "vbot", callName: "iOS 01 Dev", ext: "104", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjU0ODctNzg4NS03MjQtODE0In0._Srt3W-r34ZzCfRXZ5ZNm-0xyoDlQ8a8UHaKr1j5Lko"),
     SDKMember(type: "ios", typeTest: "vbot", callName: "bhxh 01 Staging", ext: "101", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJWYWx1ZSI6IjE1OC0zNDEtMTI5LTE5ODYifQ.OqWZ2elMrzhyBkongmZxQWyKu5MVDjiZN3mbm20PEI0"),
