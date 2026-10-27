@@ -1,0 +1,22 @@
+PODS:
+  - VBotPhoneSDKiOS-Public (1.1.11)
+
+DEPENDENCIES:
+  - VBotPhoneSDKiOS-Public (from `https://github.com/VBotDevTeam/VBotPhoneSDKiOS-Public.git`, tag `1.1.11`)
+
+EXTERNAL SOURCES:
+  VBotPhoneSDKiOS-Public:
+    :git: https://github.com/VBotDevTeam/VBotPhoneSDKiOS-Public.git
+    :tag: 1.1.11
+
+CHECKOUT OPTIONS:
+  VBotPhoneSDKiOS-Public:
+    :git: https://github.com/VBotDevTeam/VBotPhoneSDKiOS-Public.git
+    :tag: 1.1.11
+
+SPEC CHECKSUMS:
+  VBotPhoneSDKiOS-Public: 49cf9d336c98ab88fcde3083b4290c0a926b549c
+
+PODFILE CHECKSUM: fcb7dd5916d6e6984832994877cd3c8fe89e8181
+
+COCOAPODS: 1.16.2
